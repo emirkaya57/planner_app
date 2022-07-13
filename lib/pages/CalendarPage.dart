@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:planner_app/pages/createEvent.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarPage extends StatefulWidget {
@@ -24,52 +26,62 @@ class _CalendarPageState extends State<CalendarPage> {
             style: TextStyle(
                 color: Colors.black, fontWeight: FontWeight.w600, fontSize: 25),
           )),
-      body: TableCalendar(
-        focusedDay: DateTime.now(),
-        firstDay: DateTime(1990),
-        lastDay: DateTime(2060),
-        calendarFormat: format,
-        startingDayOfWeek: StartingDayOfWeek.monday,
-        onFormatChanged: (CalendarFormat _format) {
-          setState(() {
-            format = _format;
-          });
-        },
-        onDaySelected: (DateTime selectedDay, DateTime focusDay) {
-          setState(() {
-            selectDay = selectedDay;
-            focuseDay = focusDay;
-          });
-        },
-        selectedDayPredicate: (day) {
-          return isSameDay(selectDay, day);
-        },
-        headerStyle: const HeaderStyle(
-            titleTextStyle:
-                TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
-            leftChevronVisible: false,
-            formatButtonShowsNext: false,
-            rightChevronVisible: false,
-            headerPadding: EdgeInsets.all(13),
-            titleCentered: true),
-        calendarStyle: CalendarStyle(
-            weekendDecoration: BoxDecoration(
-                // shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(5)),
-            defaultDecoration: BoxDecoration(
-                // shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(5)),
-            isTodayHighlighted: true,
-            todayDecoration: BoxDecoration(
-                color: Colors.blue,
-                // shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(5)),
-            selectedDecoration: BoxDecoration(
-                //  shape: BoxShape.rectangle,
-                color: Colors.white,
-                border: Border.all(width: 1),
-                borderRadius: BorderRadius.circular(28)),
-            selectedTextStyle: TextStyle(color: Colors.black)),
+      body: Column(
+        children: [
+          TableCalendar(
+            focusedDay: DateTime.now(),
+            firstDay: DateTime(1990),
+            lastDay: DateTime(2060),
+            calendarFormat: format,
+            startingDayOfWeek: StartingDayOfWeek.monday,
+            onFormatChanged: (CalendarFormat _format) {
+              setState(() {
+                format = _format;
+              });
+            },
+            onDaySelected: (DateTime selectedDay, DateTime focusDay) {
+              setState(() {
+                selectDay = selectedDay;
+                focuseDay = focusDay;
+              });
+            },
+            onDayLongPressed: (DateTime focus, DateTime select) {
+              Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                      builder: (context) => const CreateEvent()));
+            },
+            selectedDayPredicate: (day) {
+              return isSameDay(selectDay, day);
+            },
+            headerStyle: const HeaderStyle(
+                titleTextStyle:
+                    TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+                leftChevronVisible: false,
+                formatButtonShowsNext: false,
+                rightChevronVisible: false,
+                headerPadding: EdgeInsets.all(13),
+                titleCentered: true),
+            calendarStyle: CalendarStyle(
+                weekendDecoration: BoxDecoration(
+                    // shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(5)),
+                defaultDecoration: BoxDecoration(
+                    // shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(5)),
+                isTodayHighlighted: true,
+                todayDecoration: BoxDecoration(
+                    color: Colors.blue,
+                    // shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(5)),
+                selectedDecoration: BoxDecoration(
+                    //  shape: BoxShape.rectangle,
+                    color: Colors.white,
+                    border: Border.all(width: 2),
+                    borderRadius: BorderRadius.circular(28)),
+                selectedTextStyle: const TextStyle(color: Colors.black)),
+          ),
+        ],
       ),
     );
   }
